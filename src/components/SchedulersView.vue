@@ -1,79 +1,59 @@
 <template>
-    <div class="global-box">
-    
-      <h3 class="titulo-box">Cursos</h3>
-    
-      <div v-for="course of schedules" class="course vstack gap-3">
-        <div class="p-2">
-          <RouterLink :to="'/schedule/' + course.id" class="router-link">{{ course.name }}</RouterLink>
-        </div>
+  <div class="global-box">
+    <h3 class="titulo-box">Cursos</h3>
+
+    <div v-for="schedule of schedules" :key="schedule.id" class="course vstack gap-3">
+      <div class="p-2">
+        <RouterLink :to="'/schedule/' + schedule.id" class="router-link">{{
+          schedule.id
+        }}</RouterLink>
       </div>
-    
     </div>
-    </template>
-    
-    
-    <style>
-    /* .course {
+  </div>
+</template>
+
+<style>
+/* .course {
       width: 100%;
       margin: 1px 12px;
     } */
-    </style>
-    
-    <script lang="ts">
-    import axios from 'axios'
-    import type { ISchedule } from '../interfaces/schedule.ts';
-    
-    export default {
-    
-    name: 'SchedulersView',
-    data() {
-      return {
-        company_id: "kwpGBT-cQ-M",
-        schedules: [] as ISchedule[],
+</style>
+
+<script lang="ts">
+import SchedulerService from '@/services/SchedulerService'
+import type { ISchedule } from '../interfaces/schedule.ts'
+
+export default {
+  name: 'SchedulersView',
+  data() {
+    return {
+      company_id: 'kwpGBT-cQ-M',
+      schedules: [] as ISchedule[]
+    }
+  },
+  props: {
+    companyId: Number
+  },
+
+  watch: {
+    companyId() {
+      this.getCourses()
+    }
+  },
+
+  mounted() {
+    this.getCourses()
+  },
+
+  methods: {
+    async getCourses() {
+      try {
+        this.schedules = await SchedulerService.getSchedules()
+        console.log('this.schedules', this.schedules)
+      } catch (error) {
+        console.error('Error fetching data:', error)
       }
-    },
-    props: {
-        companyId: Number
-    },
-    
-    watch: {
-        companyId(newCourseId) {
-          this.getCourses(newCourseId);
-        },
-      },
-    
-      mounted() {
-        if (this.companyId) {
-          this.getCourses(this.companyId);
-        }
-      },
-    
-    methods: {
-      async getCourses(id: any) {
-        const token = localStorage.getItem('token-oasis')
-          try {
-            await axios
-              .get(
-                'http://localhost:8080/course/byCompany/' + id,
-                {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-                    'Authorization': `Bearer ${token}`
-                  }
-                }
-              )
-              .then((courses) => {
-                this.courses = courses.data;
-                console.log('courses.data', courses.data)
-                console.log('this.courses', courses.data)
-              })
-          } catch (error) {
-            console.error('Error fetching data:', error)
-          }
-        },
     }
-    }
-    </script>
+  }
+}
+</script>
