@@ -1,23 +1,14 @@
 'use strict'
 <template>
-  <div class="dash">
-    <h1>Oasis Dashboard {{ video.name }}</h1>
+  <div class="dashboard-titulo">
+    <h1>Agendamentos</h1>
   </div>
   <div class="course-box-containder">
-      <CourseBox :company-id="2"/>
+      <SchedulersView :company-id="2"/>
     </div>
 </template>
 
 <style>
-  .dash {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: aqua !important;
-    margin-bottom: 100px;
-  }
-
   .course-box-containder {
     width: 80%;
   }
@@ -28,7 +19,7 @@ import { useRoute } from 'vue-router';
 import { ref  } from 'vue';
 import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js';
 import axios from 'axios';
-import CourseBox from '../components/CoursesBox.vue';
+import SchedulersView from '../components/SchedulersView.vue';
 
 interface Video {
   name: String,
@@ -52,6 +43,7 @@ export default {
   const loop = ref(1);
 
   if (Array.isArray(route.params.id)) {
+    console.log("nada")
   } else {
     loop.value = Number(route.params.id);
   }
@@ -59,7 +51,7 @@ export default {
     return { loop };
  },
  components: {
-  CourseBox
+  SchedulersView
  },
 
  methods: {

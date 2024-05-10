@@ -3,9 +3,9 @@
     
       <h3 class="titulo-box">Cursos</h3>
     
-      <div v-for="course of courses" class="course vstack gap-3">
+      <div v-for="course of schedules" class="course vstack gap-3">
         <div class="p-2">
-          <RouterLink :to="'/curso/' + course.id" class="router-link">{{ course.name }}</RouterLink>
+          <RouterLink :to="'/schedule/' + course.id" class="router-link">{{ course.name }}</RouterLink>
         </div>
       </div>
     
@@ -22,14 +22,15 @@
     
     <script lang="ts">
     import axios from 'axios'
+    import type { ISchedule } from '../interfaces/schedule.ts';
     
     export default {
     
-    name: 'VideoBox',
+    name: 'SchedulersView',
     data() {
       return {
         company_id: "kwpGBT-cQ-M",
-        courses: [] as any
+        schedules: [] as ISchedule[],
       }
     },
     props: {

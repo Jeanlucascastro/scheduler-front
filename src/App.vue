@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <div class="page">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <RouterLink to="/" class="navbar-brand router-link">Oasis</RouterLink>
+        <RouterLink to="/" class="navbar-brand router-link">Agendaqui</RouterLink>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -18,13 +18,13 @@ import { RouterLink, RouterView } from 'vue-router'
               <RouterLink to="/" class="router-link">Home</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/about/2" class="router-link">About</RouterLink>
+              <RouterLink to="/about/2" class="router-link">Agendamentos</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/video/2" class="router-link">About2</RouterLink>
+              <RouterLink to="/video/2" class="router-link">Serviços</RouterLink>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled router-link" aria-disabled="true">Disabled</a>
+              <RouterLink to="/video/2" class="router-link">Relatórios</RouterLink>
             </li>
           </ul>
         </div>
@@ -36,15 +36,6 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
-.page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 
 .header {
   line-height: 0.5;
@@ -65,8 +56,8 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  background-color: black !important;
-  color: white;
+  background-color: rgb(97, 159, 161) !important;
+  color: black;
   /* margin-top: 2rem; */
 }
 
@@ -89,7 +80,7 @@ nav a:first-of-type {
 }
 
 .nav-item {
-  color: white;
+  color: black;
 }
 
 </style>

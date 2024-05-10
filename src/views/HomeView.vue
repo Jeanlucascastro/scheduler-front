@@ -15,7 +15,7 @@ export default {
       try {
         await axios
           .post(
-            'http://localhost:8080/auth/login',
+            'http://localhost:8082/auth/login',
             {
               login: this.email,
               password: this.password
@@ -53,11 +53,6 @@ main {
   align-items: center;
 }
 
-.login {
-  width: 20vw;
-  height: 20vh;
-}
-
 .titulo {
   display: flex;
   justify-content: center;
@@ -71,7 +66,7 @@ main {
   <main>
     <div class="login">
       <div class="titulo text-default">
-        Login Oasis
+        Login
       </div>
       <div class="mb-3">
         <label for="formGroupExampleInput" class="text-default">Email</label>
@@ -84,7 +79,12 @@ main {
       <div class="mb-3">
         <button type="button" class="btn btn-outline-warning btn-sm" @click="login">Login</button>
       </div>
+      <div class="mb-3">
+        <a href="/esqueceu-senha">Esqueceu a senha?</a>
+        <span> | </span>
+        <a href="/criar-conta">Criar conta</a>
+      </div>
     </div>
-
   </main>
 </template>
+
