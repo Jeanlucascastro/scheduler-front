@@ -1,6 +1,5 @@
 <script lang="ts">
-import axios from 'axios'
-import router from '@/router';
+import AuthenticationService from '@/services/AuthenticationService'
 
 export default {
   data() {
@@ -13,29 +12,13 @@ export default {
   methods: {
     async login() {
       try {
-        await axios
-          .post(
-            'http://localhost:8082/auth/login',
-            {
-              login: this.email,
-              password: this.password
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-              }
-            }
-          )
-          .then((usuario) => {
-            localStorage.setItem('token-oasis', usuario.data.token)
-            localStorage.setItem('usuario-oasis', usuario.data.user.id)
-            router.push('/dashboard')
-            console.log('company-oasis', usuario.data)
-          })
+        const usuario = await AuthenticationService.login(this.email, this.password);
+        localStorage.setItem('token-oasis', usuario.token);
+        localStorage.setItem('usuario-oasis', usuario.user.id);
+        this.$router.push('/dashboard');
+        console.log('company-oasis', usuario);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error);
       }
     },
   },
