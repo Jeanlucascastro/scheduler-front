@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { UrlBase } from '../config'
+import type { IUserData } from '@/interfaces/user-data';
 
-interface UserData {
-  token: string;
-  user: {
-    id: string;
-  };
-}
 
 export default class AuthenticationService {
-  static async login(email: string, password: string): Promise<UserData> {
+  static async login(email: string, password: string): Promise<IUserData> {
     try {
-      const response = await axios.post<UserData>(
+      const response = await axios.post<IUserData>(
         `${UrlBase.apiUrl}/auth/login`,
         {
           login: email,

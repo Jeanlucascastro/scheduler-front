@@ -1,5 +1,6 @@
 <script lang="ts">
 import AuthenticationService from '@/services/AuthenticationService'
+import type { IUserData } from '../interfaces/user-data.ts';
 
 export default {
   data() {
@@ -12,7 +13,7 @@ export default {
   methods: {
     async login() {
       try {
-        const usuario = await AuthenticationService.login(this.email, this.password);
+        const usuario: IUserData = await AuthenticationService.login(this.email, this.password);
         localStorage.setItem('token-oasis', usuario.token);
         localStorage.setItem('usuario-oasis', usuario.user.id);
         this.$router.push('/dashboard');
