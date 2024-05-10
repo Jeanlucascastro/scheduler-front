@@ -1,0 +1,82 @@
+@import './base.css';
+
+.text-default {
+  color: white
+}
+
+.global-box {
+  border: 1px solid #FF802B;
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+  background-color: #151718;
+  color: aliceblue;
+}
+
+.titulo-box {
+  margin: 10px;
+}
+
+.video {
+  width: 100%;
+  margin: 1px 12px;
+}
+
+.router-link {
+  text-decoration: none !important; /* Remove o sublinhado */
+  color: inherit !important; /* Mantém a cor padrão do texto */
+}
+
+.header {
+  line-height: 0.5;
+    max-height: 100vh;
+    gap: 18px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100% !important;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+}
+
+#app {
+  font-weight: normal;
+  width: 100%;
+}
+
+body {
+  background-color: black;
+  margin: 0; 
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem; */
+  }
+}
+
