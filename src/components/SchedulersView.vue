@@ -18,7 +18,7 @@
           <td>{{ formatarDataEHora(schedule?.initialTime) }}</td>
           <td>{{ schedule?.animalName }}</td>
           <td>{{ schedule?.type?.name }}</td>
-          <td>{{ schedule?.animal?.note }}</td>
+          <td>{{ schedule?.note }}</td>
         </tr>
       </tbody>
     </table>
@@ -29,13 +29,33 @@
 .schedule-link {
   display: table-cell;
   cursor: pointer;
-  /* Outros estilos conforme necessário */
+}
+.table {
+  width: 80%;
 }
 </style>
 
 <script lang="ts">
 import SchedulerService from '@/services/SchedulerService'
 import type { ISchedule } from '../interfaces/schedule.ts'
+import { useScheduleStore } from '@/stores/scheduleStore.js'
+import { storeToRefs } from 'pinia'
+
+const scheduleNovo: ISchedule = {
+  id: '',
+  deleted: false,
+  dateCreate: null,
+  dateUpdate: null,
+  initialTime: null,
+  finalTime: null,
+  type: null,
+  company: null,
+  executor: null,
+  animalName: 'fiLO',
+  user: null,
+  animal: null,
+  note: ''
+}
 
 export default {
   name: 'SchedulersView',
@@ -44,6 +64,13 @@ export default {
       company_id: 'kwpGBT-cQ-M',
       schedules: [] as ISchedule[]
     }
+  },
+  setup() {
+    const scheduleStore = useScheduleStore()
+
+    const { schedule } = storeToRefs(scheduleStore)
+    console.log('schedule ', schedule.value)
+
   },
   props: {
     companyId: Number
@@ -60,6 +87,10 @@ export default {
   },
 
   methods: {
+    saveTemporarySchedyle() {
+      const scheduleStore = useScheduleStore()
+      scheduleStore.increment(scheduleNovo)
+    },
     async getCourses() {
       try {
         this.schedules = await SchedulerService.getSchedules()
@@ -69,26 +100,22 @@ export default {
       }
     },
 
-    navigateToSchedule(id) {
+    navigateToSchedule(id: string | null) {
       this.$router.push('/schedule/' + id)
     },
-    formatarDataEHora(dataString) {
-      // Verifica se a string de data não é nula ou vazia
+    formatarDataEHora(dataString: string | number | Date | null) {
       if (!dataString) {
         return ''
       }
 
-      // Cria um objeto Date a partir da string de data
       var data = new Date(dataString)
 
-      // Extrai os componentes da data
       var dia = data.getDate()
-      var mes = data.getMonth() + 1 // Lembrando que em JavaScript os meses começam do zero
+      var mes = data.getMonth() + 1
       var ano = data.getFullYear()
       var hora = data.getHours()
       var minutos = data.getMinutes()
 
-      // Formata os componentes em uma string no formato desejado
       var dataFormatada =
         dia.toString().padStart(2, '0') +
         '/' +

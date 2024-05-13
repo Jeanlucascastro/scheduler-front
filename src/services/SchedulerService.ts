@@ -21,4 +21,21 @@ export default class SchedulerService {
       throw error; 
     }
   }
+
+  static async getSchedulerById(id: number): Promise<any> {
+    const token = getTokenSimple()
+
+    try {
+      const response: AxiosResponse = await axios.get(`${UrlBase.apiUrl}/schedules/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; 
+    }
+  }
 }

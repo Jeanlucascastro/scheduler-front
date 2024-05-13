@@ -7,14 +7,15 @@ import type { IUser } from "./user";
 export interface ISchedule {
   id: string;
   deleted: boolean;
-  dateCreate: Date;
-  dateUpdate: Date;
-  initialTime: Date;
-  finalTime: Date;
-  type: IType;
-  company: ICompany;
-  executor: IExecutor;
-  animalName: string;
-  user: IUser;
-  animal: IAnimal;
+  dateCreate: Date | null;
+  dateUpdate: Date | null;
+  initialTime: Date | null;
+  finalTime: Date | null;
+  type: IType | null;
+  company: ICompany | null;
+  executor: IExecutor | null;
+  animalName: string | null;
+  user: IUser | null;
+  animal: IAnimal | null;
+  note: string
 }

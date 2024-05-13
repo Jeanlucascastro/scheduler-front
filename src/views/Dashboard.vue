@@ -9,9 +9,7 @@
 </template>
 
 <style>
-  .course-box-containder {
-    width: 80%;
-  }
+
 </style>
 
 <script lang="ts">
