@@ -2,10 +2,12 @@
 import axios, { type AxiosResponse } from 'axios';
 
 import { UrlBase } from '../config'
+import { getTokenSimple } from './TokenService';
 
 export default class SchedulerService {
   static async getSchedules(): Promise<any> {
-    const token = localStorage.getItem('token-oasis');
+    const token = getTokenSimple()
+
     try {
       const response: AxiosResponse = await axios.get(`${UrlBase.apiUrl}/schedules/by-user`, {
         headers: {

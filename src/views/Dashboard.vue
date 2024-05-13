@@ -83,7 +83,7 @@ export default {
 
  created() {
     checkLogin()
-    this.getVideos(this.loop)
+    //this.getVideos(this.loop)
   },
 }
 

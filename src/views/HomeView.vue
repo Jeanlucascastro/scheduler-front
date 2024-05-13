@@ -47,7 +47,7 @@ main {
 <script lang="ts">
 import AuthenticationService from '@/services/AuthenticationService'
 import type { IUserData } from '../interfaces/user-data.ts';
-import { encryptToken } from '@/services/TokenService'
+import { encryptTokenSimple } from '@/services/TokenService'
  
 export default {
   data() {
@@ -61,8 +61,7 @@ export default {
     async login() {
       try {
         const usuario: IUserData = await AuthenticationService.login(this.email, this.password);
-        console.log('encryptToken(usuario.token)', encryptToken(usuario.token))
-        localStorage.setItem('token-oasis', encryptToken(usuario.token));
+        localStorage.setItem('token-oasis', encryptTokenSimple(usuario.token));
         localStorage.setItem('usuario-oasis', usuario.user.id);
         this.$router.push('/dashboard');
         console.log('company-oasis', usuario);
