@@ -61,7 +61,7 @@ export default {
     async login() {
       try {
         const usuario: IUserData = await AuthenticationService.login(this.email, this.password);
-        localStorage.setItem('token-oasis', encryptTokenSimple(usuario.token));
+        localStorage.setItem('logs-data', encryptTokenSimple(usuario.token));
         localStorage.setItem('usuario-oasis', usuario.user.id);
         this.$router.push('/dashboard');
         console.log('company-oasis', usuario);

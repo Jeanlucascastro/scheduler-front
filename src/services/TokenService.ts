@@ -4,8 +4,6 @@ import { KJUR } from 'jsrsasign';
 export const CheckToken = async (token: string): Promise<boolean> => {
   try {
     const secret = import.meta.env.VITE_TOKEN
-    console.log('SECRET ', secret)
-    console.log('token', token)
     const decodedToken = KJUR.jws.JWS.verifyJWT(token, secret, {alg: ['HMAC256']});
     console.log('decodedToken', decodedToken)
     return true;
@@ -18,20 +16,31 @@ export const CheckToken = async (token: string): Promise<boolean> => {
 
 const keyString = import.meta.env.VITE_KEY;
 
-// Criando um TextEncoder
+export function getTokenSimple() {
+  const token = localStorage.getItem('logs-data') as string
+  return decryptTokenSimple(token)
+}
+
+export function encryptTokenSimple(token: string) {
+  const encryptedToken = btoa(keyString + token);
+  return encryptedToken;
+}
+
+export function decryptTokenSimple(encryptedToken: string) {
+  const decryptedToken = atob(encryptedToken);
+  const tokenWithoutKey = decryptedToken.slice(keyString.length);
+  return tokenWithoutKey;
+}
+
 const encoder = new TextEncoder();
-// Convertendo a string para um ArrayBuffer
 const keyArrayBuffer = encoder.encode(keyString);
 
-// Criando um Uint8Array a partir do ArrayBuffer
 const keyBuffer = new Uint8Array(keyArrayBuffer);
 
-// Ajuste o tamanho do buffer para 32 bytes (256 bits)
-const finalKeyBytes = new Uint8Array(32); // Cria um array de bytes de 32 bytes
+const finalKeyBytes = new Uint8Array(32);
 finalKeyBytes.set(keyBuffer.slice(0, 32)); 
 
 
-// Função para criptografar o token usando AES
 export async function encryptToken(token: string): Promise<ArrayBuffer> {
   const iv = crypto.getRandomValues(new Uint8Array(16)); // Vetor de inicialização aleatório
   const encodedToken = new TextEncoder().encode(token);
@@ -48,7 +57,6 @@ export async function decryptToken(encryptedTokenWithIV: ArrayBuffer): Promise<s
   return new TextDecoder().decode(decrypted);
 }
 
-// Função para converter ArrayBuffer em string base64
 export function arrayBufferToBase64(buffer: ArrayBuffer) {
   let binary = '';
   const bytes = new Uint8Array(buffer);
@@ -59,7 +67,6 @@ export function arrayBufferToBase64(buffer: ArrayBuffer) {
   return window.btoa(binary);
 }
 
-// Função para converter string base64 de volta para ArrayBuffer
 export function base64ToArrayBuffer(base64: string) {
   const binary_string = window.atob(base64);
   const len = binary_string.length;
@@ -71,25 +78,7 @@ export function base64ToArrayBuffer(base64: string) {
 }
 
 export function getToken() {
-  const token = localStorage.getItem('token-oasis') as string
+  const token = localStorage.getItem('logs-data') as string
   const tokenFromArrayBuffer = base64ToArrayBuffer(token);
   return decryptToken(tokenFromArrayBuffer)
-}
-
-export function getTokenSimple() {
-  const token = localStorage.getItem('token-oasis') as string
-  return decryptTokenSimple(token)
-}
-
-export function encryptTokenSimple(token: string) {
-  const encryptedToken = btoa(keyString + token); // Adiciona a chave ao token antes de codificar para Base64
-  return encryptedToken;
-}
-
-// Função para descriptografar o token JWT com uma chave secreta
-export function decryptTokenSimple(encryptedToken: string) {
-  const decryptedToken = atob(encryptedToken); // Decodifica o token de Base64
-  // Remove a chave do token descriptografado
-  const tokenWithoutKey = decryptedToken.slice(keyString.length);
-  return tokenWithoutKey;
 }

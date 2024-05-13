@@ -7,12 +7,12 @@ export interface LoginMixin {
 
 export const useLoginMixin = (): LoginMixin => {
   const checkLogin = async () => {
-    setTimeout(async () => {
       const token = getTokenSimple()
+      console.log('=====> ', token)
   
       if (!token) {
-        console.log('Token inválido ou não existe.')
         router.push('/')
+        console.log('Token inválido ou não existe. hh')
       } else {
         const decode = CheckToken(token)
   
@@ -21,7 +21,6 @@ export const useLoginMixin = (): LoginMixin => {
           router.push('/')
         }
       }
-    }, 2000)
 
   }
 

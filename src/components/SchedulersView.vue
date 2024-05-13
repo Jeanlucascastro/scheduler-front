@@ -1,22 +1,36 @@
 <template>
   <div class="global-box">
-    <h3 class="titulo-box">Cursos</h3>
-
-    <div v-for="schedule of schedules" :key="schedule.id" class="course vstack gap-3">
-      <div class="p-2">
-        <RouterLink :to="'/schedule/' + schedule.id" class="router-link">{{
-          schedule.id
-        }}</RouterLink>
-      </div>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Serviço</th>
+          <th scope="col">Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="schedule in schedules"
+          :key="schedule.id"
+          @click="navigateToSchedule(schedule.id)"
+        >
+          <td>{{ formatarDataEHora(schedule?.initialTime) }}</td>
+          <td>{{ schedule?.animalName }}</td>
+          <td>{{ schedule?.type?.name }}</td>
+          <td>{{ schedule?.animal?.note }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <style>
-/* .course {
-      width: 100%;
-      margin: 1px 12px;
-    } */
+.schedule-link {
+  display: table-cell;
+  cursor: pointer;
+  /* Outros estilos conforme necessário */
+}
 </style>
 
 <script lang="ts">
@@ -53,6 +67,40 @@ export default {
       } catch (error) {
         console.error('Error fetching data:', error)
       }
+    },
+
+    navigateToSchedule(id) {
+      this.$router.push('/schedule/' + id)
+    },
+    formatarDataEHora(dataString) {
+      // Verifica se a string de data não é nula ou vazia
+      if (!dataString) {
+        return ''
+      }
+
+      // Cria um objeto Date a partir da string de data
+      var data = new Date(dataString)
+
+      // Extrai os componentes da data
+      var dia = data.getDate()
+      var mes = data.getMonth() + 1 // Lembrando que em JavaScript os meses começam do zero
+      var ano = data.getFullYear()
+      var hora = data.getHours()
+      var minutos = data.getMinutes()
+
+      // Formata os componentes em uma string no formato desejado
+      var dataFormatada =
+        dia.toString().padStart(2, '0') +
+        '/' +
+        mes.toString().padStart(2, '0') +
+        '/' +
+        ano +
+        ' ' +
+        hora.toString().padStart(2, '0') +
+        ':' +
+        minutos.toString().padStart(2, '0')
+
+      return dataFormatada
     }
   }
 }
