@@ -82,10 +82,14 @@ export function getTokenSimple() {
 }
 
 export function encryptTokenSimple(token: string) {
-  return btoa(token); // Codifica o token para Base64
+  const encryptedToken = btoa(keyString + token); // Adiciona a chave ao token antes de codificar para Base64
+  return encryptedToken;
 }
 
-// Função para descriptografar o token JWT
+// Função para descriptografar o token JWT com uma chave secreta
 export function decryptTokenSimple(encryptedToken: string) {
-  return atob(encryptedToken); // Decodifica o token de Base64
+  const decryptedToken = atob(encryptedToken); // Decodifica o token de Base64
+  // Remove a chave do token descriptografado
+  const tokenWithoutKey = decryptedToken.slice(keyString.length);
+  return tokenWithoutKey;
 }
