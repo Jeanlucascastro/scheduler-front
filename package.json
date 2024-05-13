@@ -15,6 +15,7 @@
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
     "buffer": "^6.0.3",
+    "dotenv": "^16.4.5",
     "jsrsasign": "^11.1.0",
     "pinia": "^2.1.7",
     "safe-buffer": "^5.2.1",
