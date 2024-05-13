@@ -1,24 +1,26 @@
-// loginMixin.ts
-// import { ref } from 'vue';
-// import { useRouter } from 'vue-router';
-import router from '@/router';
-
+import router from '@/router'
+import { CheckToken } from '@/services/TokenService'
 
 export interface LoginMixin {
-  checkLogin: () => void;
+  checkLogin: () => void
 }
 
 export const useLoginMixin = (): LoginMixin => {
-  // const router = useRouter();
-
   const checkLogin = () => {
-    const token = localStorage.getItem('token-oasis');
+    const token = localStorage.getItem('token-oasis')
 
     if (!token) {
-      console.log(token)
-      router.push('/');
-    }
-  };
+      console.log('Token inválido ou não existe.')
+      router.push('/')
+    } else {
+      const decode = CheckToken(token)
 
-  return { checkLogin };
-};
+      if (!decode) {
+        localStorage.removeItem('token-oasis')
+        router.push('/')
+      }
+    }
+  }
+
+  return { checkLogin }
+}

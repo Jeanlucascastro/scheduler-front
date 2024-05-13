@@ -28,7 +28,6 @@ import { useRoute } from 'vue-router';
 import { ref  } from 'vue';
 import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js';
 import axios from 'axios';
-import VideoBox from '@/components/VideosBox.vue';
 
 interface Course {
   name: String,
@@ -52,6 +51,7 @@ export default {
   const loop = ref(1);
 
   if (Array.isArray(route.params.id)) {
+    console.log('d')
   } else {
     loop.value = Number(route.params.id);
   }
