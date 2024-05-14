@@ -30,9 +30,6 @@ import { RouterLink, RouterView } from 'vue-router'
             <li class="nav-item">
               <RouterLink to="/video/2" class="router-link">Serviços</RouterLink>
             </li>
-            <li class="nav-item">
-              <RouterLink to="/reports/2" class="router-link">Relatórios</RouterLink>
-            </li>
           </ul>
         </div>
       </div>

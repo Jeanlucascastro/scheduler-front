@@ -1,12 +1,8 @@
+'use strict'
 <template>
   <div class="dashboard-titulo">
+    <h1 class="texto-titulo">Agendar</h1>
 
-    <h1 class="texto-titulo">Detalhes do agendamento</h1>
-    <button
-      type="button"
-      class="btn btn-primary"
-    >
-    <RouterLink to="/scheulersview" class="router-link">Voltar</RouterLink></button>
   </div>
   <div class="global-box detalhes">
     <div class="informacao">
@@ -43,7 +39,7 @@ import { formatarDataEHora } from '@/utils/data.js'
 const { checkLogin }: LoginMixin = useLoginMixin()
 
 export default {
-  name: 'App',
+  name: 'AnimalCreate',
   data() {
     return {
       scheduler: {} as ISchedule

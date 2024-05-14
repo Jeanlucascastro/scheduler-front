@@ -1,5 +1,16 @@
 <template>
-  <div class="global-box">
+  <div class="dashboard-titulo">
+    <h1 class="texto-titulo">Agendamentos</h1>
+    <div class="botoes">
+      <button type="button" class="btn btn-primary">
+        <RouterLink to="/scheulersview" class="router-link">Agendar</RouterLink>
+      </button>
+      <button type="button" class="btn btn-primary">
+        <RouterLink to="/scheulersview" class="router-link">Cadastrar animal</RouterLink>
+      </button>
+    </div>
+  </div>
+  <div class="global-box detalhes">
     <table class="table">
       <thead>
         <tr>
@@ -15,7 +26,7 @@
           :key="schedule.id"
           @click="navigateToSchedule(schedule.id)"
         >
-          <td>{{ formatarDataEHora(schedule?.initialTime) }}</td>
+          <td>{{ formatar(schedule?.initialTime) }}</td>
           <td>{{ schedule?.animalName }}</td>
           <td>{{ schedule?.type?.name }}</td>
           <td>{{ schedule?.note }}</td>
@@ -33,6 +44,11 @@
 .table {
   width: 80%;
 }
+.botoes {
+  display: flex;
+  flex-direction: row;
+  gap: 9px;
+}
 </style>
 
 <script lang="ts">
@@ -40,6 +56,7 @@ import SchedulerService from '@/services/SchedulerService'
 import type { ISchedule } from '../interfaces/schedule.ts'
 import { useScheduleStore } from '@/stores/scheduleStore.js'
 import { storeToRefs } from 'pinia'
+import { formatarDataEHora } from '@/utils/data.js'
 
 const scheduleNovo: ISchedule = {
   id: '',
@@ -69,8 +86,8 @@ export default {
     const scheduleStore = useScheduleStore()
 
     const { schedule } = storeToRefs(scheduleStore)
-    console.log('schedule ', schedule.value)
 
+    console.log('schedule ', schedule.value)
   },
   props: {
     companyId: Number
@@ -103,31 +120,8 @@ export default {
     navigateToSchedule(id: string | null) {
       this.$router.push('/schedule/' + id)
     },
-    formatarDataEHora(dataString: string | number | Date | null) {
-      if (!dataString) {
-        return ''
-      }
-
-      var data = new Date(dataString)
-
-      var dia = data.getDate()
-      var mes = data.getMonth() + 1
-      var ano = data.getFullYear()
-      var hora = data.getHours()
-      var minutos = data.getMinutes()
-
-      var dataFormatada =
-        dia.toString().padStart(2, '0') +
-        '/' +
-        mes.toString().padStart(2, '0') +
-        '/' +
-        ano +
-        ' ' +
-        hora.toString().padStart(2, '0') +
-        ':' +
-        minutos.toString().padStart(2, '0')
-
-      return dataFormatada
+    formatar(data: string | number | Date | null) {
+      return formatarDataEHora(data)
     }
   }
 }

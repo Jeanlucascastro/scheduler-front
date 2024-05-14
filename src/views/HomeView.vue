@@ -63,7 +63,7 @@ export default {
         const usuario: IUserData = await AuthenticationService.login(this.email, this.password);
         localStorage.setItem('logs-data', encryptTokenSimple(usuario.token));
         localStorage.setItem('usuario-oasis', usuario.user.id);
-        this.$router.push('/dashboard');
+        this.$router.push('/scheulersview');
         console.log('company-oasis', usuario);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -1,10 +1,8 @@
 'use strict'
 <template>
-  <div class="dashboard-titulo">
-    <h1 class="texto-titulo">Agendamentos</h1>
-  </div>
+
   <div class="course-box-containder">
-      <SchedulersView :company-id="2"/>
+      <SchedulersView/>
     </div>
 </template>
 
@@ -17,7 +15,6 @@ import { useRoute } from 'vue-router';
 import { ref  } from 'vue';
 import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js';
 import axios from 'axios';
-import SchedulersView from '../components/SchedulersView.vue';
 
 interface Video {
   name: String,
