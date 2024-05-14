@@ -1,7 +1,7 @@
 'use strict'
 <template>
   <div class="dashboard-titulo">
-    <h1>Agendamentos</h1>
+    <h1 class="texto-titulo">Agendamentos</h1>
   </div>
   <div class="course-box-containder">
       <SchedulersView :company-id="2"/>
