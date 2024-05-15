@@ -127,6 +127,7 @@ import { ref } from 'vue'
 import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js'
 import { formatarDataEHora } from '@/utils/data.js'
 import type { IAnimal } from '@/interfaces/animal.js'
+import AnimalService from '@/services/AnimalService.js'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -157,7 +158,13 @@ export default {
       return formatarDataEHora(data)
     },
     saveAnimal() {
+      AnimalService.getAnimals();
+      this.animal.companyId = 1
+      AnimalService.saveAnimal(this.animal).then((dada) => {
+        console.log('SAVELD ', dada)
+      })
       console.log('@@@@@@@@@@@@@', this.animal)
+
     },
     cancel() {
       this.$router.push('/scheulersview');

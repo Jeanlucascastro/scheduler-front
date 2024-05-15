@@ -116,7 +116,6 @@ export default {
         console.error('Error fetching data:', error)
       }
     },
-
     navigateToSchedule(id: string | null) {
       this.$router.push('/schedule/' + id)
     },

@@ -17,8 +17,9 @@ export const CheckToken = async (token: string): Promise<boolean> => {
 const keyString = import.meta.env.VITE_KEY;
 
 export function getTokenSimple() {
-  const token = localStorage.getItem('logs-data') as string
-  return decryptTokenSimple(token)
+  //const token = localStorage.getItem('logs-data') as string
+  //return decryptTokenSimple(token)
+  return localStorage.getItem('logs-data')
 }
 
 export function encryptTokenSimple(token: string) {
