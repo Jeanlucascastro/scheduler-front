@@ -6,7 +6,7 @@
         <RouterLink to="/scheulersview" class="router-link">Agendar</RouterLink>
       </button>
       <button type="button" class="btn btn-primary">
-        <RouterLink to="/scheulersview" class="router-link">Cadastrar animal</RouterLink>
+        <RouterLink to="/animalcreate" class="router-link">Cadastrar animal</RouterLink>
       </button>
     </div>
   </div>

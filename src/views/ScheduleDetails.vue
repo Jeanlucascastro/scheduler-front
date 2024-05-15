@@ -28,7 +28,8 @@
 }
 
 .informacao {
-  margin-top: 10px
+  margin-top: 10px;
+  width: 80%;
 }
 </style>
 

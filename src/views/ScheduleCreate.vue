@@ -39,7 +39,7 @@ import { formatarDataEHora } from '@/utils/data.js'
 const { checkLogin }: LoginMixin = useLoginMixin()
 
 export default {
-  name: 'ScheduleCreate',
+  name: 'App',
   data() {
     return {
       scheduler: {} as ISchedule
