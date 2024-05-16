@@ -9,7 +9,13 @@
     <div class="formulario">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nome" v-model="animal.name"/>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Nome"
+          v-model="animal.name"
+        />
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Idade</label>
@@ -22,7 +28,17 @@
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Tamanho cm</label>
+        <label for="exampleFormControlInput1" class="form-label">Peso Kg</label>
+        <input
+          type="number"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Peso Kg"
+          v-model="animal.weight"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Tamanho Cm</label>
         <input
           type="number"
           class="form-control"
@@ -31,13 +47,45 @@
           v-model="animal.size"
         />
       </div>
+
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Animal</label>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            v-model="animal.animalType"
+          >
+            <option disabled selected>Selecione o Animal</option>
+            <option value="CACHORRO">Cachorro</option>
+            <option value="GATO">Gato</option>
+          </select>
+        </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Observações</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="animal.note"></textarea>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          v-model="animal.note"
+        ></textarea>
       </div>
       <div class="botoes-confirmacao">
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancelar</button>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal">Salvar</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#cancelModal"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#saveModal"
+        >
+          Salvar
+        </button>
       </div>
 
       <!-- Cancel Modal -->
@@ -61,14 +109,18 @@
             </div>
             <div class="modal-body">...</div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="cancel">Confirmar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Fechar
+              </button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="cancel">
+                Confirmar
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-            <!-- Save Modal -->
+      <!-- Save Modal -->
       <div
         class="modal fade"
         id="saveModal"
@@ -89,8 +141,22 @@
             </div>
             <div class="modal-body">...</div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">Fechar</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="saveAnimal">Confirmar </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                @click="cancel"
+              >
+                Fechar
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                @click="saveAnimal"
+              >
+                Confirmar
+              </button>
             </div>
           </div>
         </div>
@@ -158,16 +224,15 @@ export default {
       return formatarDataEHora(data)
     },
     saveAnimal() {
-      AnimalService.getAnimals();
+      AnimalService.getAnimals()
       this.animal.companyId = 1
       AnimalService.saveAnimal(this.animal).then((dada) => {
         console.log('SAVELD ', dada)
       })
       console.log('@@@@@@@@@@@@@', this.animal)
-
     },
     cancel() {
-      this.$router.push('/scheulersview');
+      this.$router.push('/scheulersview')
     }
   },
 
