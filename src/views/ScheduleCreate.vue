@@ -7,8 +7,48 @@
   </div>
   <div class="global-box detalhes">
     <div class="formulario">
-      <div >
+      <div>
         <VueDatePicker v-model="selectedDate" time-picker-inline />
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Serviço</label>
+        <select class="form-select" aria-label="Default select example">
+          <option disabled selected>Selecione o Serviço</option>
+          <option v-for="tipo in types" :key="tipo.id" :value="tipo.name">
+            {{ tipo.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Animal</label>
+        <select class="form-select" aria-label="Default select example">
+          <option disabled selected>Selecione o Animal</option>
+          <option v-for="animal in animails" :key="animal.id" :value="animal.name">
+            {{ animal.name }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Nome do Animal</label>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="Nome"
+          v-model="schedule.animalName"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Observações</label>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          v-model="schedule.note"
+        ></textarea>
       </div>
 
       <div class="botoes-confirmacao">
@@ -135,9 +175,10 @@ import { ref } from 'vue'
 import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js'
 import { formatarDataEHora } from '@/utils/data.js'
 import type { ISchedule } from '@/interfaces/schedule.js'
-
-
-
+import type { IType } from '@/interfaces/type.js'
+import TypeService from '@/services/TypeService.js'
+import type { IAnimal } from '@/interfaces/animal.js'
+import AnimalService from '@/services/AnimalService.js'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -146,7 +187,9 @@ export default {
   data() {
     return {
       schedule: {} as ISchedule,
-      selectedDate: null
+      selectedDate: null,
+      types: [] as IType[],
+      animails: [] as IAnimal[]
     }
   },
   setup() {
@@ -158,8 +201,7 @@ export default {
     return { loop }
   },
 
-  components: {
-  },
+  components: {},
 
   props: {
     courseId: Number
@@ -174,11 +216,20 @@ export default {
     },
     cancel() {
       this.$router.push('/scheulersview')
+    },
+    async getTypes() {
+      this.types = await TypeService.getTypes()
+    },
+    async getAnimals() {
+      this.animails = await AnimalService.getAnimals()
+      console.log('Animais da pessoa ', this.animails)
     }
   },
 
   created() {
     checkLogin()
+    this.getTypes()
+    this.getAnimals()
   }
 }
 </script>
