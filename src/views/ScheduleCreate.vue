@@ -13,9 +13,9 @@
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Serviço</label>
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" aria-label="Default select example" @change="handleSelectionType($event)">
           <option disabled selected>Selecione o Serviço</option>
-          <option v-for="tipo in types" :key="tipo.id" :value="tipo.name">
+          <option v-for="tipo in types" :key="tipo.id" :value="tipo.id">
             {{ tipo.name }}
           </option>
         </select>
@@ -23,7 +23,7 @@
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Animal</label>
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" aria-label="Default select example" @change="handleSelectionChange($event)">
           <option disabled selected>Selecione o Animal</option>
           <option v-for="animal in animails" :key="animal.id" :value="animal.name">
             {{ animal.name }}
@@ -135,7 +135,7 @@
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
-                @click="saveAnimal"
+                @click="saveSchedule"
               >
                 Confirmar
               </button>
@@ -179,6 +179,7 @@ import type { IType } from '@/interfaces/type.js'
 import TypeService from '@/services/TypeService.js'
 import type { IAnimal } from '@/interfaces/animal.js'
 import AnimalService from '@/services/AnimalService.js'
+import SchedulerService from '@/services/SchedulerService.js'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -211,18 +212,38 @@ export default {
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
     },
-    saveAnimal() {
-      console.log('=>>>> 0', this.selectedDate)
-    },
+
     cancel() {
       this.$router.push('/scheulersview')
     },
+
     async getTypes() {
       this.types = await TypeService.getTypes()
     },
+
     async getAnimals() {
       this.animails = await AnimalService.getAnimals()
       console.log('Animais da pessoa ', this.animails)
+    },
+
+    saveSchedule() {
+      this.schedule.initialTime = this.selectedDate;
+      this.schedule.companyId = parseInt(localStorage.getItem('company') || '');
+      SchedulerService.saveSchedule(this.schedule).then((dada) => {
+        console.log('SAVELD ', dada)
+        this.$router.push('/scheulersview')
+      })
+      console.log('@@@@@@@@@@@@@', this.schedule)
+    },
+
+    handleSelectionChange(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      this.schedule.animalName = target.value;
+    },
+    
+    handleSelectionType(event: Event) {
+      const target = event.target as HTMLSelectElement
+      this.schedule.typeId = parseInt(target.value);
     }
   },
 

@@ -223,14 +223,17 @@ export default {
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
     },
+
     saveAnimal() {
       AnimalService.getAnimals()
       this.animal.companyId = 1
       AnimalService.saveAnimal(this.animal).then((dada) => {
         console.log('SAVELD ', dada)
+        this.$router.push('/scheulersview')
       })
       console.log('@@@@@@@@@@@@@', this.animal)
     },
+    
     cancel() {
       this.$router.push('/scheulersview')
     }

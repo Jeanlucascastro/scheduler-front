@@ -18,4 +18,6 @@ export interface ISchedule {
   user: IUser | null;
   animal: IAnimal | null;
   note: string
-}
+  companyId?: number;
+  typeId?: number;
+ }

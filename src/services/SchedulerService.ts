@@ -3,6 +3,7 @@ import axios, { type AxiosResponse } from 'axios';
 
 import { UrlBase } from '../config'
 import { getTokenSimple } from './TokenService';
+import type { ISchedule } from '@/interfaces/schedule';
 
 export default class SchedulerService {
   static async getSchedules(): Promise<any> {
@@ -27,6 +28,24 @@ export default class SchedulerService {
 
     try {
       const response: AxiosResponse = await axios.get(`${UrlBase.apiUrl}/schedules/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; 
+    }
+  }
+
+  static async saveSchedule(schedule: ISchedule): Promise<any> {
+    const token = getTokenSimple()
+    console.log('schedule no service ', schedule, token)
+
+    try {
+      const response: AxiosResponse = await axios.post(`${UrlBase.apiUrl}/schedules`, schedule, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

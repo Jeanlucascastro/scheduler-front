@@ -47,7 +47,7 @@ main {
 <script lang="ts">
 import AuthenticationService from '@/services/AuthenticationService'
 import type { IUserData } from '../interfaces/user-data.ts';
-import { encryptTokenSimple } from '@/services/TokenService'
+//import { encryptTokenSimple } from '@/services/TokenService'
  
 export default {
   data() {
@@ -63,7 +63,8 @@ export default {
         const usuario: IUserData = await AuthenticationService.login(this.email, this.password);
         // localStorage.setItem('logs-data', encryptTokenSimple(usuario.token));
         localStorage.setItem('logs-data', usuario.token)
-        localStorage.setItem('user-data', usuario.user.id);
+        localStorage.setItem('user-data', usuario.user.id);''
+        localStorage.setItem('company', '1');
         this.$router.push('/scheulersview');
         console.log('company-oasis', usuario);
       } catch (error) {

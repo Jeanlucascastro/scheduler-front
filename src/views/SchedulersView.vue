@@ -95,12 +95,12 @@ export default {
 
   watch: {
     companyId() {
-      this.getCourses()
+      this.getSchedules()
     }
   },
 
   mounted() {
-    this.getCourses()
+    this.getSchedules()
   },
 
   methods: {
@@ -108,7 +108,8 @@ export default {
       const scheduleStore = useScheduleStore()
       scheduleStore.increment(scheduleNovo)
     },
-    async getCourses() {
+
+    async getSchedules() {
       try {
         this.schedules = await SchedulerService.getSchedules()
         console.log('this.schedules', this.schedules)
@@ -116,9 +117,11 @@ export default {
         console.error('Error fetching data:', error)
       }
     },
+
     navigateToSchedule(id: string | null) {
       this.$router.push('/schedule/' + id)
     },
+    
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
     }
