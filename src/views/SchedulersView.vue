@@ -10,30 +10,7 @@
       </button>
     </div>
   </div>
-  <div class="global-box detalhes">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Data</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Serviço</th>
-          <th scope="col">Observações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="schedule in schedules"
-          :key="schedule.id"
-          @click="navigateToSchedule(schedule.id)"
-        >
-          <td>{{ formatar(schedule?.initialTime) }}</td>
-          <td>{{ schedule?.animalName }}</td>
-          <td>{{ schedule?.type?.name }}</td>
-          <td>{{ schedule?.note }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <SchedulersUserView :schedules="schedules"/>
 </template>
 
 <style>
@@ -57,6 +34,7 @@ import type { ISchedule } from '../interfaces/schedule.ts'
 import { useScheduleStore } from '@/stores/scheduleStore.js'
 import { storeToRefs } from 'pinia'
 import { formatarDataEHora } from '@/utils/data.js'
+import SchedulersUserView from '../components/SchedulersUserView.vue'
 
 const scheduleNovo: ISchedule = {
   id: '',
@@ -82,6 +60,11 @@ export default {
       schedules: [] as ISchedule[]
     }
   },
+
+  components: {
+    SchedulersUserView
+  },
+
   setup() {
     const scheduleStore = useScheduleStore()
 
@@ -89,6 +72,7 @@ export default {
 
     console.log('schedule ', schedule.value)
   },
+
   props: {
     companyId: Number
   },
