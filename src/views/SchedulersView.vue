@@ -10,7 +10,7 @@
       </button>
     </div>
   </div>
-    <SchedulersUserView :schedules="schedules"/>
+    <SchedulersAdminView :schedules="schedules"/>
 </template>
 
 <style>
@@ -35,6 +35,7 @@ import { useScheduleStore } from '@/stores/scheduleStore.js'
 import { storeToRefs } from 'pinia'
 import { formatarDataEHora } from '@/utils/data.js'
 import SchedulersUserView from '../components/SchedulersUserView.vue'
+import SchedulersAdminView from '../components/SchedulersAdminView.vue'
 
 const scheduleNovo: ISchedule = {
   id: '',
@@ -62,7 +63,8 @@ export default {
   },
 
   components: {
-    SchedulersUserView
+    SchedulersUserView,
+    SchedulersAdminView
   },
 
   setup() {

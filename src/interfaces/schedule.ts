@@ -14,7 +14,7 @@ export interface ISchedule {
   type: IType | null;
   company: ICompany | null;
   executor: IExecutor | null;
-  animalName: string | null;
+  animalName: string;
   user: IUser | null;
   animal: IAnimal | null;
   note: string
