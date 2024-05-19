@@ -37,21 +37,6 @@ import { formatarDataEHora } from '@/utils/data.js'
 import SchedulersUserView from '../components/SchedulersUserView.vue'
 import SchedulersAdminView from '../components/SchedulersAdminView.vue'
 
-const scheduleNovo: ISchedule = {
-  id: '',
-  deleted: false,
-  dateCreate: null,
-  dateUpdate: null,
-  initialTime: null,
-  finalTime: null,
-  type: null,
-  company: null,
-  executor: null,
-  animalName: 'fiLO',
-  user: null,
-  animal: null,
-  note: ''
-}
 
 export default {
   name: 'SchedulersView',
@@ -63,7 +48,7 @@ export default {
   },
 
   components: {
-    SchedulersUserView,
+    //SchedulersUserView,
     SchedulersAdminView
   },
 
@@ -92,7 +77,7 @@ export default {
   methods: {
     saveTemporarySchedyle() {
       const scheduleStore = useScheduleStore()
-      scheduleStore.increment(scheduleNovo)
+      //scheduleStore.increment(scheduleNovo)
     },
 
     async getSchedules() {

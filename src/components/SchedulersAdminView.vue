@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="timeSlot in timeSlots" :key="timeSlot" @click="navigateToSchedule(timeSlot.id)">
+        <tr v-for="timeSlot in timeSlots" :key="timeSlot" @click="navigateToSchedule(getScheduleAtTime(timeSlot)?.id || '')">
           <td>{{ timeSlot }}</td>
           <td>
             <template v-if="getScheduleAtTime(timeSlot)">
@@ -75,10 +75,10 @@ export default defineComponent({
   mounted() {},
 
   methods: {
-    navigateToSchedule(id: string | null) {
+    navigateToSchedule(id: string) {
       this.$router.push('/schedule/' + id)
     },
-    
+
     generateTimeSlots(
       startTime: {
         split: (arg0: string) => {
