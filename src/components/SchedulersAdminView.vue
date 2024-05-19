@@ -1,5 +1,6 @@
 <template>
   <div class="global-box detalhes">
+    <div>Dia: {{ currentDate }}</div>
     <table class="table">
       <thead>
         <tr>
@@ -10,26 +11,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="timeSlot in timeSlots" :key="timeSlot" @click="navigateToSchedule(getScheduleAtTime(timeSlot)?.id || '')">
-          <td>{{ timeSlot }}</td>
-          <td>
-            <template v-if="getScheduleAtTime(timeSlot)">
-              {{ getScheduleAtTime(timeSlot)?.animalName}}
-            </template>
-          </td>
-          <td>
-            <template v-if="getScheduleAtTime(timeSlot)">
-              {{ getScheduleAtTime(timeSlot)?.type?.name }}
-            </template>
-          </td>
-          <td>
-            <template v-if="getScheduleAtTime(timeSlot)">
-              {{ getScheduleAtTime(timeSlot)?.note }}
-            </template>
-          </td>
+        <tr
+          v-for="schedule in schedules"
+          :key="schedule.id"
+          @click="navigateToSchedule(schedule.id)"
+        >
+          <td>{{ formatar(schedule?.initialTime) }}</td>
+          <td>{{ schedule?.animalName }}</td>
+          <td>{{ schedule?.type?.name }}</td>
+          <td>{{ schedule?.note }}</td>
         </tr>
       </tbody>
-    </table>   
+    </table>
   </div>
 </template>
 
@@ -50,7 +43,7 @@
 
 <script lang="ts">
 import type { ISchedule } from '@/interfaces/schedule.js'
-import { formatarDataEHora } from '../utils/data.js'
+import { formatarHora } from '../utils/data.js'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -58,6 +51,7 @@ export default defineComponent({
   data() {
     return {
       timeSlots: this.generateTimeSlots('08:00', '18:00', 30),
+      currentDate: this.getCurrentDate()
     }
   },
 
@@ -77,6 +71,17 @@ export default defineComponent({
   methods: {
     navigateToSchedule(id: string) {
       this.$router.push('/schedule/' + id)
+    },
+
+    formatar(data: string | number | Date | null) {
+      return formatarHora(data)
+    },
+
+    getCurrentDate() {
+      const today = new Date()
+      const day = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      return `${day}/${month}`
     },
 
     generateTimeSlots(
@@ -125,11 +130,11 @@ export default defineComponent({
       return `${hours}:${minutes}`
     },
     getScheduleAtTime(timeSlot: string): ISchedule | null {
-      const schedule = this.schedules.find((schedule: ISchedule) =>
-        this.formatTime(new Date(schedule.initialTime || '')) === timeSlot
-      );
-      return schedule || null;
-    },
+      const schedule = this.schedules.find(
+        (schedule: ISchedule) => this.formatTime(new Date(schedule.initialTime || '')) === timeSlot
+      )
+      return schedule || null
+    }
   }
 })
 </script>

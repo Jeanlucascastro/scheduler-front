@@ -57,4 +57,22 @@ export default class SchedulerService {
       throw error; 
     }
   }
+
+  static async updateSchedule(schedule: ISchedule): Promise<ISchedule> {
+    const token = getTokenSimple()
+    console.log('schedule no service ', schedule, token)
+
+    try {
+      const response: AxiosResponse = await axios.put(`${UrlBase.apiUrl}/schedules/${schedule.id}`, schedule, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; 
+    }
+  }
 }

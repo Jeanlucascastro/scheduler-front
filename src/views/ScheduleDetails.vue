@@ -1,19 +1,20 @@
 <template>
   <div class="dashboard-titulo">
-
     <h1 class="texto-titulo">Detalhes do agendamento</h1>
-    <button
-      type="button"
-      class="btn btn-primary"
-    >
-    <RouterLink to="/scheulersview" class="router-link">Voltar</RouterLink></button>
+    <button type="button" class="btn btn-primary">
+      <RouterLink to="/scheulersview" class="router-link">Voltar</RouterLink>
+    </button>
   </div>
   <div class="global-box detalhes">
     <div class="informacao">
-      <p><strong>Data:</strong> {{ formatar(scheduler?.initialTime) }} </p>
+      <p><strong>Data:</strong> {{ formatar(scheduler?.initialTime) }}</p>
       <p><strong>Nome:</strong> {{ scheduler.animalName }}</p>
       <p><strong>Serviço:</strong> {{ scheduler?.type?.name }}</p>
       <p><strong>Observações:</strong> {{ scheduler?.note }}</p>
+    </div>
+    <div class="botoes">
+      <button type="button" class="btn btn-primary btn-lg" @click="edit()">Editar</button>
+      <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
     </div>
   </div>
 </template>
@@ -44,7 +45,7 @@ import { formatarDataEHora } from '@/utils/data.js'
 const { checkLogin }: LoginMixin = useLoginMixin()
 
 export default {
-  name: 'App',
+  name: 'ScheduleDetails',
   data() {
     return {
       scheduler: {} as ISchedule
@@ -69,9 +70,15 @@ export default {
     async getScheduler() {
       this.scheduler = await SchedulerService.getSchedulerById(this.loop)
     },
+
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
+    },
+
+    edit() {
+      this.$router.push('/scheduleedit/' + this.loop)
     }
+
   },
 
   created() {

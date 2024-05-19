@@ -24,3 +24,21 @@ export function formatarDataEHora(dataString: string | number | Date | null) {
 
   return dataFormatada
 }
+
+export function formatarHora(dataString: string | number | Date | null) {
+  if (!dataString) {
+    return ''
+  }
+
+  const data = new Date(dataString)
+
+  const hora = data.getHours()
+  const minutos = data.getMinutes()
+
+  const horaFormatada =
+    hora.toString().padStart(2, '0') +
+    ':' +
+    minutos.toString().padStart(2, '0')
+
+  return horaFormatada
+}

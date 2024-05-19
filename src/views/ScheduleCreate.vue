@@ -230,10 +230,8 @@ export default {
       this.schedule.initialTime = this.selectedDate;
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '');
       SchedulerService.saveSchedule(this.schedule).then((dada) => {
-        console.log('SAVELD ', dada)
         this.$router.push('/scheulersview')
       })
-      console.log('@@@@@@@@@@@@@', this.schedule)
     },
 
     handleSelectionChange(event: Event) {
@@ -247,10 +245,15 @@ export default {
     }
   },
 
-  created() {
+  async created() {
     checkLogin()
     this.getTypes()
     this.getAnimals()
+    console.log('this. ', this.loop)
+    if (this.loop) {
+      this.schedule = await SchedulerService.getSchedulerById(this.loop)
+      console.log('OK', this.schedule)
+    }
   }
 }
 </script>
