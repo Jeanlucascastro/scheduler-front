@@ -75,4 +75,22 @@ export default class SchedulerService {
       throw error; 
     }
   }
+
+  static async cancelSchedule(scheduleId: number): Promise<any> {
+    const token = getTokenSimple()
+    console.log('schedule no service ', scheduleId, token)
+
+    try {
+      const response: AxiosResponse = await axios.delete(`${UrlBase.apiUrl}/schedules/${scheduleId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; 
+    }
+  }
 }

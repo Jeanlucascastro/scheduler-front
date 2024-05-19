@@ -89,7 +89,7 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
+            <div class="modal-body">Deseja realmente cancelar o registro ?</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Fechar
@@ -121,7 +121,7 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
+            <div class="modal-body">Deseja realmente salvar o registro ?</div>
             <div class="modal-footer">
               <button
                 type="button"
