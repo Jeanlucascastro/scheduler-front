@@ -3,7 +3,7 @@
     <h1 class="texto-titulo">Agendamentos</h1>
     <div class="botoes">
       <button type="button" class="btn btn-primary">
-        <RouterLink to="/schedulecreate" class="router-link">Agendar</RouterLink>
+        <RouterLink to="/schedulecreate/0" class="router-link">Agendar</RouterLink>
       </button>
       <button type="button" class="btn btn-primary">
         <RouterLink to="/animalcreate" class="router-link">Cadastrar animal</RouterLink>

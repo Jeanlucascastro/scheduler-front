@@ -14,7 +14,44 @@
     </div>
     <div class="botoes">
       <button type="button" class="btn btn-primary btn-lg" @click="edit()">Editar</button>
-      <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
+      <button
+        type="button"
+        class="btn btn-danger btn-lg"
+        data-bs-toggle="modal"
+        data-bs-target="#cancelScheduleModal"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- Cancel Modal -->
+  <div
+    class="modal fade"
+    id="cancelScheduleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Cancelar Cadastro</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">Deseja realmente cancelar o registro ?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="cancelSchedule">
+            Confirmar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,9 +113,14 @@ export default {
     },
 
     edit() {
-      this.$router.push('/scheduleedit/' + this.loop)
-    }
+      this.$router.push('/schedulecreate/' + this.loop)
+    },
 
+    async cancelSchedule() {
+      const responsta = await SchedulerService.cancelSchedule(this.loop)
+      console.log('responsta ', responsta)
+      this.$router.push('/scheulersview')       
+    }
   },
 
   created() {

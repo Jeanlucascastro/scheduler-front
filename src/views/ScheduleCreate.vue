@@ -250,7 +250,7 @@ export default {
     this.getTypes()
     this.getAnimals()
     console.log('this. ', this.loop)
-    if (this.loop) {
+    if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
       console.log('OK', this.schedule)
     }
