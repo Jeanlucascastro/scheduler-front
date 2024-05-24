@@ -13,7 +13,12 @@
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Serviço</label>
-        <select class="form-select" aria-label="Default select example" @change="handleSelectionType($event)">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="typeSelected"
+          @change="handleSelectionType($event)"
+        >
           <option disabled selected>Selecione o Serviço</option>
           <option v-for="tipo in types" :key="tipo.id" :value="tipo.id">
             {{ tipo.name }}
@@ -23,7 +28,12 @@
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Animal</label>
-        <select class="form-select" aria-label="Default select example" @change="handleSelectionChange($event)">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="animalSelected"
+          @change="handleSelectionChange($event)"
+        >
           <option disabled selected>Selecione o Animal</option>
           <option v-for="animal in animails" :key="animal.id" :value="animal.name">
             {{ animal.name }}
@@ -190,7 +200,9 @@ export default {
       schedule: {} as ISchedule,
       selectedDate: null,
       types: [] as IType[],
-      animails: [] as IAnimal[]
+      animails: [] as IAnimal[],
+      typeSelected: {} as IType,
+      animalSelected: {} as IAnimal
     }
   },
   setup() {
@@ -227,21 +239,27 @@ export default {
     },
 
     saveSchedule() {
-      this.schedule.initialTime = this.selectedDate;
-      this.schedule.companyId = parseInt(localStorage.getItem('company') || '');
-      SchedulerService.saveSchedule(this.schedule).then((dada) => {
-        this.$router.push('/scheulersview')
-      })
+      this.schedule.initialTime = this.selectedDate
+      this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
+      if (this.loop && this.loop != 0) {
+        SchedulerService.updateSchedule(this.schedule).then((data) => {
+          this.$router.push('/scheulersview')
+        })
+      } else {
+        SchedulerService.saveSchedule(this.schedule).then((data) => {
+          this.$router.push('/scheulersview')
+        })
+      }
     },
 
     handleSelectionChange(event: Event) {
-      const target = event.target as HTMLSelectElement;
-      this.schedule.animalName = target.value;
+      const target = event.target as HTMLSelectElement
+      this.schedule.animalName = target.value
     },
-    
+
     handleSelectionType(event: Event) {
       const target = event.target as HTMLSelectElement
-      this.schedule.typeId = parseInt(target.value);
+      this.schedule.typeId = parseInt(target.value)
     }
   },
 
@@ -252,6 +270,9 @@ export default {
     console.log('this. ', this.loop)
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
+      this.selectedDate = this.schedule.initialTime
+      this.typeSelected = this.schedule.type.id;
+      this.animalSelected = this.schedule.animal.id
       console.log('OK', this.schedule)
     }
   }
