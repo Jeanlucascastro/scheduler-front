@@ -47,7 +47,7 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="Nome"
-          v-model="schedule.animalName"
+          v-model="animalSelected.name"
         />
       </div>
 
@@ -247,7 +247,7 @@ export default {
           initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
           typeId: this.schedule?.type?.id,
           companyId: this.schedule.companyId,
-          animalName: this.schedule.animalName,
+          animalName: this.animalSelected.name,
           note: this.schedule.note,
           animalId: this.schedule?.animal?.id,
         }
@@ -270,6 +270,7 @@ export default {
       const target = event.target as HTMLSelectElement
       this.schedule.animalId = parseInt(target.value)
       this.schedule.animalName = target.value.toString();
+      this.animalSelected = this.schedule.animal as IAnimal
       console.log("this.schedule.animalName ", this.schedule.animalName)
     },
 
@@ -286,9 +287,9 @@ export default {
     console.log('this. ', this.loop)
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
-      this.selectedDate = this.schedule.initialTime
-      this.typeSelected = this.schedule?.type
-      this.animalSelected = this.schedule?.animal
+      this.selectedDate = this.schedule.initialTime as any
+      this.typeSelected = this.schedule?.type as IType
+      this.animalSelected = this.schedule?.animal as IAnimal
       console.log('OK', this.schedule)
     }
   }
