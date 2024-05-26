@@ -92,7 +92,7 @@ export default {
     navigateToSchedule(id: string | null) {
       this.$router.push('/schedule/' + id)
     },
-    
+
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
     }

@@ -59,7 +59,7 @@ export default class SchedulerService {
     }
   }
 
-  static async updateSchedule(schedule: ISchedule): Promise<ISchedule> {
+  static async updateSchedule(schedule: ICreateScheduleDTO): Promise<ISchedule> {
     const token = getTokenSimple()
     console.log('schedule no service ', schedule, token)
 

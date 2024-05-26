@@ -242,12 +242,8 @@ export default {
     saveSchedule() {
       this.schedule.initialTime = this.selectedDate
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
-      if (this.loop && this.loop != 0) {
-        SchedulerService.updateSchedule(this.schedule).then(() => {
-          this.$router.push('/scheulersview')
-        })
-      } else {
-        const scheduleToSave: ICreateScheduleDTO = {
+
+      const scheduleToSave: ICreateScheduleDTO = {
           initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
           typeId: this.schedule?.type?.id,
           companyId: this.schedule.companyId,
@@ -256,15 +252,25 @@ export default {
           animalId: this.schedule?.animal?.id,
         }
 
+      if (this.loop && this.loop != 0) {
+        scheduleToSave.id = this.schedule.id;
+        SchedulerService.updateSchedule(scheduleToSave).then(() => {
+          this.$router.push('/scheulersview')
+        })
+      } else {
         SchedulerService.saveSchedule(scheduleToSave).then(() => {
           this.$router.push('/scheulersview')
         })
       }
+      this.typeSelected = {} as IType,
+      this.animalSelected = {} as IAnimal
     },
 
     handleSelectionChange(event: Event) {
       const target = event.target as HTMLSelectElement
-      this.schedule.animalName = target.value as string;
+      this.schedule.animalId = parseInt(target.value)
+      this.schedule.animalName = target.value.toString();
+      console.log("this.schedule.animalName ", this.schedule.animalName)
     },
 
     handleSelectionType(event: Event) {

@@ -119,7 +119,7 @@ export default {
     async cancelSchedule() {
       const responsta = await SchedulerService.cancelSchedule(this.loop)
       console.log('responsta ', responsta)
-      this.$router.push('/scheulersview')       
+      this.$router.push('/scheulersview')
     }
   },
 

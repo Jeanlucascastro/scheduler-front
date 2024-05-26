@@ -17,6 +17,7 @@ export interface ISchedule {
   animalName: string;
   user: IUser | null;
   animal: IAnimal | null;
+  animalId?: number;
   note: string
   companyId?: number;
   typeId?: number;
