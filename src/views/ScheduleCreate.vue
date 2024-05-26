@@ -16,11 +16,11 @@
         <select
           class="form-select"
           aria-label="Default select example"
-          v-model="typeSelected"
+          v-model="schedule.type"
           @change="handleSelectionType($event)"
         >
           <option disabled selected>Selecione o Serviço</option>
-          <option v-for="tipo in types" :key="tipo.id" :value="tipo.id">
+          <option v-for="tipo in types" :key="tipo.id" :value="tipo">
             {{ tipo.name }}
           </option>
         </select>
@@ -31,11 +31,11 @@
         <select
           class="form-select"
           aria-label="Default select example"
-          v-model="animalSelected"
+          v-model="schedule.animal"
           @change="handleSelectionChange($event)"
         >
           <option disabled selected>Selecione o Animal</option>
-          <option v-for="animal in animails" :key="animal.id" :value="animal.name">
+          <option v-for="animal in animais" :key="animal.id" :value="animal">
             {{ animal.name }}
           </option>
         </select>
@@ -190,6 +190,7 @@ import TypeService from '@/services/TypeService.js'
 import type { IAnimal } from '@/interfaces/animal.js'
 import AnimalService from '@/services/AnimalService.js'
 import SchedulerService from '@/services/SchedulerService.js'
+import type { ICreateScheduleDTO } from '@/interfaces/create-schedule.js'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -200,7 +201,7 @@ export default {
       schedule: {} as ISchedule,
       selectedDate: null,
       types: [] as IType[],
-      animails: [] as IAnimal[],
+      animais: [] as IAnimal[],
       typeSelected: {} as IType,
       animalSelected: {} as IAnimal
     }
@@ -234,19 +235,28 @@ export default {
     },
 
     async getAnimals() {
-      this.animails = await AnimalService.getAnimals()
-      console.log('Animais da pessoa ', this.animails)
+      this.animais = await AnimalService.getAnimals()
+      console.log('Animais da pessoa ', this.animais)
     },
 
     saveSchedule() {
       this.schedule.initialTime = this.selectedDate
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
       if (this.loop && this.loop != 0) {
-        SchedulerService.updateSchedule(this.schedule).then((data) => {
+        SchedulerService.updateSchedule(this.schedule).then(() => {
           this.$router.push('/scheulersview')
         })
       } else {
-        SchedulerService.saveSchedule(this.schedule).then((data) => {
+        const scheduleToSave: ICreateScheduleDTO = {
+          initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
+          typeId: this.schedule?.type?.id,
+          companyId: this.schedule.companyId,
+          animalName: this.schedule.animalName,
+          note: this.schedule.note,
+          animalId: this.schedule?.animal?.id,
+        }
+
+        SchedulerService.saveSchedule(scheduleToSave).then(() => {
           this.$router.push('/scheulersview')
         })
       }
@@ -254,7 +264,7 @@ export default {
 
     handleSelectionChange(event: Event) {
       const target = event.target as HTMLSelectElement
-      this.schedule.animalName = target.value
+      this.schedule.animalName = target.value as string;
     },
 
     handleSelectionType(event: Event) {
@@ -271,8 +281,8 @@ export default {
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
       this.selectedDate = this.schedule.initialTime
-      this.typeSelected = this.schedule.type.id;
-      this.animalSelected = this.schedule.animal.id
+      this.typeSelected = this.schedule?.type
+      this.animalSelected = this.schedule?.animal
       console.log('OK', this.schedule)
     }
   }

@@ -2,7 +2,7 @@ import type { EAnimalType } from "@/enuns/animal-type";
 import type { ICompany } from "./company";
 
 export interface IAnimal {
-  id: string;
+  id: number;
   deleted: boolean;
   dateCreate: Date;
   dateUpdate: Date;

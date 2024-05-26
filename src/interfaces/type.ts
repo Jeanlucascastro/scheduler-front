@@ -1,7 +1,7 @@
 import type { ICompany } from "./company";
 
 export interface IType {
-  id: string;
+  id: number;
   deleted: boolean;
   dateCreate: Date;
   dateUpdate: Date;

@@ -1,5 +1,5 @@
 export interface ICompany {
-  id: string;
+  id: number;
   deleted: boolean;
   dateCreate: Date;
   dateUpdate: Date;

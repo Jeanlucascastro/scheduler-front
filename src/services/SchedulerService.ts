@@ -4,6 +4,7 @@ import axios, { type AxiosResponse } from 'axios';
 import { UrlBase } from '../config'
 import { getTokenSimple } from './TokenService';
 import type { ISchedule } from '@/interfaces/schedule';
+import type { ICreateScheduleDTO } from '@/interfaces/create-schedule';
 
 export default class SchedulerService {
   static async getSchedules(): Promise<any> {
@@ -36,11 +37,11 @@ export default class SchedulerService {
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; 
+      throw error;
     }
   }
 
-  static async saveSchedule(schedule: ISchedule): Promise<any> {
+  static async saveSchedule(schedule: ICreateScheduleDTO): Promise<any> {
     const token = getTokenSimple()
     console.log('schedule no service ', schedule, token)
 
@@ -54,7 +55,7 @@ export default class SchedulerService {
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; 
+      throw error;
     }
   }
 

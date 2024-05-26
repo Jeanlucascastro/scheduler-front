@@ -5,14 +5,14 @@ import type { IType } from "./type";
 import type { IUser } from "./user";
 
 export interface ISchedule {
-  id: string;
+  id: number;
   deleted: boolean;
   dateCreate: Date | null;
   dateUpdate: Date | null;
   initialTime: Date | null;
   finalTime: Date | null;
   type: IType | null;
-  company: ICompany | null;
+  company?: ICompany | null;
   executor: IExecutor | null;
   animalName: string;
   user: IUser | null;
