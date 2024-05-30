@@ -1,28 +1,7 @@
 <template>
   <div class="global-box detalhes">
     <div>Dia: {{ currentDate }}</div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Horário</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Serviço</th>
-          <th scope="col">Observações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="schedule in schedules"
-          :key="schedule.id"
-          @click="navigateToSchedule(schedule.id)"
-        >
-          <td>{{ formatar(schedule?.initialTime) }}</td>
-          <td>{{ schedule?.animalName }}</td>
-          <td>{{ schedule?.type?.name }}</td>
-          <td>{{ schedule?.note }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <VaDataTable :items="schedules" :columns="columnsA" />
   </div>
 </template>
 
@@ -51,7 +30,13 @@ export default defineComponent({
   data() {
     return {
       timeSlots: this.generateTimeSlots('08:00', '18:00', 30),
-      currentDate: this.getCurrentDate()
+      currentDate: this.getCurrentDate(),
+      columnsA: [
+      { key: "animalName" },
+      {key: "note"},
+      { key: "animal.name", name: "Animal", label: "Animal" },
+      { key: "company.name", name: "Empresa", label: "Empresa" },
+    ]
     }
   },
 

@@ -24,6 +24,7 @@
     "safe-buffer": "^5.2.1",
     "vue-router": "^4.2.5",
     "vue-youtube-embed": "^2.2.2",
+    "vuestic-ui": "^1.9.10",
     "vuetify": "^3.6.0-beta.0.0",
     "youtube-vue3": "^0.1.15"
   },

@@ -7,8 +7,13 @@
   </div>
   <div class="global-box detalhes">
     <div class="formulario">
-      <div>
-        <VueDatePicker v-model="selectedDate" time-picker-inline />
+      <div class="max-w-xs">
+        <select class="form-select" aria-label="Selecione o horário" v-model="selectedTime">
+          <option disabled selected>Selecione o Horário</option>
+          <option v-for="time in times" :key="time.time" :value="time.time">
+            {{ time.time }}
+          </option>
+        </select>
       </div>
 
       <div class="mb-3">
@@ -203,7 +208,18 @@ export default {
       types: [] as IType[],
       animais: [] as IAnimal[],
       typeSelected: {} as IType,
-      animalSelected: {} as IAnimal
+      animalSelected: {} as IAnimal,
+      selectedTime: '',
+      value: '',
+      options: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
+      times: [
+        {
+          time: '08:00'
+        },
+        {
+          time: '08:15'
+        }
+      ]
     }
   },
   setup() {
@@ -244,16 +260,16 @@ export default {
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
 
       const scheduleToSave: ICreateScheduleDTO = {
-          initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
-          typeId: this.schedule?.type?.id,
-          companyId: this.schedule.companyId,
-          animalName: this.animalSelected.name,
-          note: this.schedule.note,
-          animalId: this.schedule?.animal?.id,
-        }
+        initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
+        typeId: this.schedule?.type?.id,
+        companyId: this.schedule.companyId,
+        animalName: this.animalSelected.name,
+        note: this.schedule.note,
+        animalId: this.schedule?.animal?.id
+      }
 
       if (this.loop && this.loop != 0) {
-        scheduleToSave.id = this.schedule.id;
+        scheduleToSave.id = this.schedule.id
         SchedulerService.updateSchedule(scheduleToSave).then(() => {
           this.$router.push('/scheulersview')
         })
@@ -262,16 +278,15 @@ export default {
           this.$router.push('/scheulersview')
         })
       }
-      this.typeSelected = {} as IType,
-      this.animalSelected = {} as IAnimal
+      ;(this.typeSelected = {} as IType), (this.animalSelected = {} as IAnimal)
     },
 
     handleSelectionChange(event: Event) {
       const target = event.target as HTMLSelectElement
       this.schedule.animalId = parseInt(target.value)
-      this.schedule.animalName = target.value.toString();
+      this.schedule.animalName = target.value.toString()
       this.animalSelected = this.schedule.animal as IAnimal
-      console.log("this.schedule.animalName ", this.schedule.animalName)
+      console.log('this.schedule.animalName ', this.schedule.animalName)
     },
 
     handleSelectionType(event: Event) {

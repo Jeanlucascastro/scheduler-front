@@ -18,48 +18,35 @@
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Idade</label>
-        <input
-          type="number"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="Idade"
+        <VaCounter
           v-model="animal.age"
+          label="Idade"
+          manual-input
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Peso Kg</label>
-        <input
-          type="number"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="Peso Kg"
+        <VaCounter
           v-model="animal.weight"
+          label="Peso Kg"
+          manual-input
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Tamanho Cm</label>
-        <input
-          type="number"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="Tamanho cm"
+        <VaCounter
           v-model="animal.size"
+          label="Tamanho Cm"
+          manual-input
         />
       </div>
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Animal</label>
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            v-model="animal.animalType"
-          >
-            <option disabled selected>Selecione o Animal</option>
-            <option value="CACHORRO">Cachorro</option>
-            <option value="GATO">Gato</option>
-          </select>
-        </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Animal</label>
+        <select class="form-select" aria-label="Default select example" v-model="animal.animalType">
+          <option disabled selected>Selecione o Animal</option>
+          <option value="CACHORRO">Cachorro</option>
+          <option value="GATO">Gato</option>
+        </select>
+      </div>
       <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Observações</label>
         <textarea
@@ -201,7 +188,11 @@ export default {
   name: 'AnimalCreate',
   data() {
     return {
-      animal: {} as IAnimal
+      animal: {} as IAnimal,
+      options: [
+      { label: 'Cachorro', value: 'CACHORRO' },
+        { label: 'Gato', value: 'GATO' }
+      ],
     }
   },
   setup() {
@@ -231,9 +222,8 @@ export default {
         console.log('SAVELD ', dada)
         this.$router.push('/scheulersview')
       })
-      console.log('@@@@@@@@@@@@@', this.animal)
     },
-    
+
     cancel() {
       this.$router.push('/scheulersview')
     }
