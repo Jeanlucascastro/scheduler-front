@@ -8,11 +8,26 @@
 
   <div class="global-box detalhes">
     <div class="formulario">
+      <label for="exampleFormControlInput1" class="form-label">Dia </label>
+      <SelectOption
+        :datas="day"
+        :destination="'days'"
+        @optionSelected="handleSelectionDay"
+        v-if="!selectDateInput"
+      />
+      <VaDateInput
+        v-model="valueDate"
+        v-if="selectDateInput"
+        :format="formatDate"
+        :locale="ptBRR"
+        :monthNames="months"
+        :weekdayNames="weekdays"
+      />
 
-      <SelectOption :datas="times" :destination="'times'"/>
+      <label for="exampleFormControlInput1" class="form-label">Horarios </label>
+      <SelectOption :datas="options" :destination="'times'" @optionSelected="handleSelection" />
 
-      <div class="max-w-xs">
-      </div>
+      <div class="max-w-xs"></div>
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Serviço</label>
@@ -180,7 +195,6 @@
   gap: 9px;
   justify-content: flex-end;
 }
-
 </style>
 
 <script lang="ts">
@@ -196,6 +210,7 @@ import AnimalService from '@/services/AnimalService.js'
 import SchedulerService from '@/services/SchedulerService.js'
 import type { ICreateScheduleDTO } from '@/interfaces/create-schedule.js'
 import SelectOption from '../components/SelectOption.vue'
+import { ptBR } from 'date-fns/locale'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -211,28 +226,10 @@ export default {
       animalSelected: {} as IAnimal,
       selectedTime: '',
       value: '',
-      times: [
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        },
-        {
-          time: '08:00'
-        }
+      day: [
+        { label: 'Hoje', value: 0 },
+        { label: 'Amanha', value: 1 },
+        { label: 'Selecionar dia', value: 2 }
       ],
       options: [
         { label: '08:00', value: 'onfe' },
@@ -247,7 +244,25 @@ export default {
         { label: '08:060', value: 'thfgggree' },
         { label: '08:06', value: 'thrffgggee' }
       ],
-      model: 'onfe'
+      selectDateInput: false,
+      valueDate: new Date(),
+      ptBRR: ptBR,
+      months: [
+          'Janeiro',
+          'Fevereiro',
+          'Março',
+          'Abril',
+          'Maio',
+          'Junho',
+          'Julho',
+          'Agosto',
+          'Setembro',
+          'Outubro',
+          'Novembro',
+          'Dezembro'
+        ],
+        weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'], // Dias da semana abreviados em português
+
     }
   },
   setup() {
@@ -322,6 +337,21 @@ export default {
     handleSelectionType(event: Event) {
       const target = event.target as HTMLSelectElement
       this.schedule.typeId = parseInt(target.value)
+    },
+    handleSelection(dados: any) {
+      console.log('dados ->> ', dados)
+    },
+    handleSelectionDay(dado: any) {
+      if (dado.value === 2) {
+        this.selectDateInput = true
+      }
+      console.log('Day ', dado)
+    },
+    formatDate(date: any) {
+      const day = String(date.getDate()).padStart(2, '0')
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const year = date.getFullYear()
+      return `${day}/${month}/${year}`
     }
   },
 

@@ -2,7 +2,7 @@
   <div class="aval">
     <div v-for="time in datas" :key="time.time" :value="time.time">
       <button class="pod" @click="select(time)">
-        {{ time.time }}
+        {{ time.label }}
       </button>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
 
   methods: {
     select(option: any) {
-      this.$emit(this.destination || '', option)
+      this.$emit('optionSelected', option)
     }
   }
 }
