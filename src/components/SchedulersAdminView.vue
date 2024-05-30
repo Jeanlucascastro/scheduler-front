@@ -1,7 +1,29 @@
 <template>
   <div class="global-box detalhes">
     <div>Dia: {{ currentDate }}</div>
-    <VaDataTable :items="schedules" :columns="columnsA" />
+    <!-- <VaDataTable :items="schedules" :columns="columnsA" @row-click="navigateToSchedule"/> -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Horário</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Serviço</th>
+          <th scope="col">Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="schedule in schedules"
+          :key="schedule.id"
+          @click="navigateToSchedule(schedule.id)"
+        >
+          <td>{{ formatar(schedule?.initialTime) }}</td>
+          <td>{{ schedule?.animalName }}</td>
+          <td>{{ schedule?.type?.name }}</td>
+          <td>{{ schedule?.note }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -54,7 +76,7 @@ export default defineComponent({
   mounted() {},
 
   methods: {
-    navigateToSchedule(id: string) {
+    navigateToSchedule(id: number) {
       this.$router.push('/schedule/' + id)
     },
 

@@ -34,7 +34,7 @@ import type { ISchedule } from '../interfaces/schedule.ts'
 import { useScheduleStore } from '@/stores/scheduleStore.js'
 import { storeToRefs } from 'pinia'
 import { formatarDataEHora } from '@/utils/data.js'
-import SchedulersUserView from '../components/SchedulersUserView.vue'
+// import SchedulersUserView from '../components/SchedulersUserView.vue'
 import SchedulersAdminView from '../components/SchedulersAdminView.vue'
 
 
@@ -90,6 +90,7 @@ export default {
     },
 
     navigateToSchedule(id: string | null) {
+      console.log(id)
       this.$router.push('/schedule/' + id)
     },
 

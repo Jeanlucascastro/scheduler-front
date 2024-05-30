@@ -5,15 +5,13 @@
       <RouterLink to="/scheulersview" class="router-link">Voltar</RouterLink>
     </button>
   </div>
+
   <div class="global-box detalhes">
     <div class="formulario">
+
+      <SelectOption :datas="times" :destination="'times'"/>
+
       <div class="max-w-xs">
-        <select class="form-select" aria-label="Selecione o horário" v-model="selectedTime">
-          <option disabled selected>Selecione o Horário</option>
-          <option v-for="time in times" :key="time.time" :value="time.time">
-            {{ time.time }}
-          </option>
-        </select>
       </div>
 
       <div class="mb-3">
@@ -182,6 +180,7 @@
   gap: 9px;
   justify-content: flex-end;
 }
+
 </style>
 
 <script lang="ts">
@@ -196,6 +195,7 @@ import type { IAnimal } from '@/interfaces/animal.js'
 import AnimalService from '@/services/AnimalService.js'
 import SchedulerService from '@/services/SchedulerService.js'
 import type { ICreateScheduleDTO } from '@/interfaces/create-schedule.js'
+import SelectOption from '../components/SelectOption.vue'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -211,15 +211,43 @@ export default {
       animalSelected: {} as IAnimal,
       selectedTime: '',
       value: '',
-      options: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
       times: [
         {
           time: '08:00'
         },
         {
-          time: '08:15'
+          time: '08:00'
+        },
+        {
+          time: '08:00'
+        },
+        {
+          time: '08:00'
+        },
+        {
+          time: '08:00'
+        },
+        {
+          time: '08:00'
+        },
+        {
+          time: '08:00'
         }
-      ]
+      ],
+      options: [
+        { label: '08:00', value: 'onfe' },
+        { label: '08:01', value: 'tqwo' },
+        { label: '08:02', value: 'thrweee' },
+        { label: '08:03', value: 'fr' },
+        { label: '08:04', value: 'thrtffee' },
+        { label: '08:05', value: 'ftttf' },
+        { label: '08:06', value: 'f' },
+        { label: '08:60', value: 'thftttfree' },
+        { label: '08:60', value: 'thrtttffee' },
+        { label: '08:060', value: 'thfgggree' },
+        { label: '08:06', value: 'thrffgggee' }
+      ],
+      model: 'onfe'
     }
   },
   setup() {
@@ -231,7 +259,9 @@ export default {
     return { loop }
   },
 
-  components: {},
+  components: {
+    SelectOption
+  },
 
   props: {
     courseId: Number
