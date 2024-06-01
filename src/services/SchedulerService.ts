@@ -20,7 +20,7 @@ export default class SchedulerService {
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; 
+      throw error;
     }
   }
 
@@ -73,7 +73,7 @@ export default class SchedulerService {
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; 
+      throw error;
     }
   }
 
@@ -91,7 +91,29 @@ export default class SchedulerService {
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; 
+      throw error;
+    }
+  }
+
+
+  static async getAvalibleTimes(date: string): Promise<any> {
+    const token = getTokenSimple()
+    console.log('schedule no service ', date, token)
+
+    // 2024-05-31
+    const companyId = 1;
+
+    try {
+      const response: AxiosResponse = await axios.get(`${UrlBase.apiUrl}/schedules/available-slots?companyId=${companyId}&date=${date}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
     }
   }
 }

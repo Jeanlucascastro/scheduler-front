@@ -8,26 +8,33 @@
 
   <div class="global-box detalhes">
     <div class="formulario">
-      <label for="exampleFormControlInput1" class="form-label">Dia </label>
-      <SelectOption
-        :datas="day"
-        :destination="'days'"
-        @optionSelected="handleSelectionDay"
-        v-if="!selectDateInput"
-      />
-      <VaDateInput
-        v-model="valueDate"
-        v-if="selectDateInput"
-        :format="formatDate"
-        :locale="ptBRR"
-        :monthNames="months"
-        :weekdayNames="weekdays"
-      />
+      <div>
+        <div class="dinamic-data-picker">
+          <label for="exampleFormControlInput1" class="form-label">Dia </label>
+          <SelectOption
+            :datas="day"
+            :destination="'days'"
+            @optionSelected="handleSelectionDay"
+            v-if="!selectDateInput"
+          />
+          <VaDateInput
+            v-model="valueDate"
+            v-if="selectDateInput"
+            :format="formatDate"
+            :locale="ptBRR"
+            :monthNames="months"
+            :weekdayNames="weekdays"
+            @update:modelValue="handleDateChange"
+          />
+        </div>
 
-      <label for="exampleFormControlInput1" class="form-label">Horarios </label>
-      <SelectOption :datas="options" :destination="'times'" @optionSelected="handleSelection" />
+        <div>
+          <label for="exampleFormControlInput1" class="form-label">Horarios </label>
+          <SelectOption :datas="options" :destination="'times'" @optionSelected="handleSelection" />
+        </div>
+      </div>
 
-      <div class="max-w-xs"></div>
+      <!-- <div class="max-w-xs"></div> -->
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Serviço</label>
@@ -195,6 +202,12 @@
   gap: 9px;
   justify-content: flex-end;
 }
+
+.dinamic-data-picker {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
 </style>
 
 <script lang="ts">
@@ -211,8 +224,10 @@ import SchedulerService from '@/services/SchedulerService.js'
 import type { ICreateScheduleDTO } from '@/interfaces/create-schedule.js'
 import SelectOption from '../components/SelectOption.vue'
 import { ptBR } from 'date-fns/locale'
+import { useTimeManagerMixin, type TimeManagerMixin } from '@/mixins/TimeManagerMixin.js'
 
 const { checkLogin }: LoginMixin = useLoginMixin()
+const { getToday, getTomorrow }: TimeManagerMixin = useTimeManagerMixin()
 
 export default {
   name: 'ScheduleCreate',
@@ -225,7 +240,6 @@ export default {
       typeSelected: {} as IType,
       animalSelected: {} as IAnimal,
       selectedTime: '',
-      value: '',
       day: [
         { label: 'Hoje', value: 0 },
         { label: 'Amanha', value: 1 },
@@ -261,7 +275,9 @@ export default {
         'Novembro',
         'Dezembro'
       ],
-      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      selectedDayForSchedule: '',
+      selectedTimeForSchedule: ''
     }
   },
   setup() {
@@ -282,6 +298,13 @@ export default {
   },
 
   methods: {
+    getAvalibleTimes(date: string) {
+      console.log('date ->>>>>>>>>>>>>>>>>>> ', date)
+      SchedulerService.getAvalibleTimes(date).then((slots) => {
+        this.options = slots
+      })
+    },
+
     formatar(data: string | number | Date | null) {
       return formatarDataEHora(data)
     },
@@ -340,17 +363,36 @@ export default {
     handleSelection(dados: any) {
       console.log('dados ->> ', dados)
     },
-    handleSelectionDay(dado: any) {
+    async handleSelectionDay(dado: any) {
       if (dado.value === 2) {
         this.selectDateInput = true
+        console.log('DATA SELECIONADA ',this.valueDate);
+      } else if (dado.value === 1) {
+        this.selectedDayForSchedule = await getTomorrow()
+        this.getAvalibleTimes(this.selectedDayForSchedule)
+      } else {
+        this.selectedDayForSchedule = await getToday()
       }
-      console.log('Day ', dado)
+      console.log('Day ', this.selectedDayForSchedule)
     },
     formatDate(date: any) {
       const day = String(date.getDate()).padStart(2, '0')
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const year = date.getFullYear()
       return `${day}/${month}/${year}`
+    },
+    handleDateChange(newDate: any) {
+      console.log('get type ', typeof newDate)
+      if (newDate) {
+        const date = new Date(newDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        this.selectedDayForSchedule = `${year}-${month}-${day}`;
+        console.log('selectedDayForSchedule ', this.selectedDayForSchedule)
+      } else {
+        this.selectedDayForSchedule = "";
+      }
     }
   },
 
@@ -358,6 +400,7 @@ export default {
     checkLogin()
     this.getTypes()
     this.getAnimals()
+    this.getAvalibleTimes(await getToday())
     console.log('this. ', this.loop)
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)

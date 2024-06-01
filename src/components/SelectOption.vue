@@ -12,6 +12,7 @@
 .aval {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pod {
@@ -19,7 +20,7 @@
   padding: 13px;
   border-radius: 14px;
   border: unset;
-  margin-right: 2px;
+  margin: 3px;
 }
 </style>
 
