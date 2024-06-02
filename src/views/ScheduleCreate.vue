@@ -325,9 +325,11 @@ export default {
     saveSchedule() {
       this.schedule.initialTime = this.selectedDate
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
+      const finalDateTime = `${this.selectedDayForSchedule} ${this.selectedTimeForSchedule}`
+      console.log('finalDateTime ', finalDateTime)
 
       const scheduleToSave: ICreateScheduleDTO = {
-        initialTime: this.schedule.initialTime ? new Date(this.schedule.initialTime) : null,
+        initialTime: new Date(finalDateTime),
         typeId: this.schedule?.type?.id,
         companyId: this.schedule.companyId,
         animalName: this.animalSelected.name,
@@ -362,6 +364,7 @@ export default {
     },
     handleSelection(dados: any) {
       console.log('dados ->> ', dados)
+      this.selectedTimeForSchedule = dados.label
     },
     async handleSelectionDay(dado: any) {
       if (dado.value === 2) {
@@ -405,6 +408,7 @@ export default {
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
       this.selectedDate = this.schedule.initialTime as any
+      console.log('@@@@  ', this.selectedDate)
       this.typeSelected = this.schedule?.type as IType
       this.animalSelected = this.schedule?.animal as IAnimal
       console.log('OK', this.schedule)
