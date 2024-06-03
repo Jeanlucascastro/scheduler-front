@@ -8,4 +8,5 @@ export interface IType {
   name: string;
   time: Date;
   company: ICompany;
+  price: number;
 }

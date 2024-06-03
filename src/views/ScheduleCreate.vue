@@ -10,16 +10,16 @@
     <div class="formulario">
       <div>
         <div class="dinamic-data-picker">
-          <label for="exampleFormControlInput1" class="form-label">Dia </label>
+          <label for="exampleFormControlInput1" class="form-label">Dia {{ selectedDayForSchedule }}</label>
           <SelectOption
             :datas="day"
             :destination="'days'"
             @optionSelected="handleSelectionDay"
-            v-if="!selectDateInput"
+            v-if="!selectDateInput && selectedDayForSchedule === ''"
           />
           <VaDateInput
             v-model="valueDate"
-            v-if="selectDateInput"
+            v-if="selectDateInput && selectedDayForSchedule === ''"
             :format="formatDate"
             :locale="ptBRR"
             :monthNames="months"
@@ -29,12 +29,11 @@
         </div>
 
         <div>
-          <label for="exampleFormControlInput1" class="form-label">Horarios </label>
-          <SelectOption :datas="options" :destination="'times'" @optionSelected="handleSelection" />
+          <label for="exampleFormControlInput1" class="form-label">Horarios {{ selectedTimeForSchedule }}</label>
+          <SelectOption :datas="options" :destination="'times'" @optionSelected="handleSelection"
+          v-if="selectedTimeForSchedule === ''"/>
         </div>
       </div>
-
-      <!-- <div class="max-w-xs"></div> -->
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Serviço</label>
@@ -46,7 +45,7 @@
         >
           <option disabled selected>Selecione o Serviço</option>
           <option v-for="tipo in types" :key="tipo.id" :value="tipo">
-            {{ tipo.name }}
+            {{ tipo.name + ' R$ ' + tipo.price }}
           </option>
         </select>
       </div>
@@ -73,6 +72,7 @@
           id="exampleFormControlInput1"
           placeholder="Nome"
           v-model="animalSelected.name"
+          :disabled="Object.keys(animalSelected).length !== 0"
         />
       </div>
 
@@ -234,7 +234,7 @@ export default {
   data() {
     return {
       schedule: {} as ISchedule,
-      selectedDate: null,
+      selectedDate: '',
       types: [] as IType[],
       animais: [] as IAnimal[],
       typeSelected: {} as IType,
@@ -323,7 +323,7 @@ export default {
     },
 
     saveSchedule() {
-      this.schedule.initialTime = this.selectedDate
+      // this.schedule.initialTime = this.selectedDate
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
       const finalDateTime = `${this.selectedDayForSchedule} ${this.selectedTimeForSchedule}`
       console.log('finalDateTime ', finalDateTime)
@@ -408,6 +408,11 @@ export default {
     if (this.loop && this.loop != 0) {
       this.schedule = await SchedulerService.getSchedulerById(this.loop)
       this.selectedDate = this.schedule.initialTime as any
+      if (this.selectedDate != null) {
+        const [selectedDayForSchedule, timeString] = this.selectedDate.split('T');
+        this.selectedDayForSchedule = selectedDayForSchedule;
+        this.selectedTimeForSchedule = timeString.slice(0, -3);
+      }
       console.log('@@@@  ', this.selectedDate)
       this.typeSelected = this.schedule?.type as IType
       this.animalSelected = this.schedule?.animal as IAnimal
