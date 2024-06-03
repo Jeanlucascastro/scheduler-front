@@ -319,14 +319,11 @@ export default {
 
     async getAnimals() {
       this.animais = await AnimalService.getAnimals()
-      console.log('Animais da pessoa ', this.animais)
     },
 
     saveSchedule() {
-      // this.schedule.initialTime = this.selectedDate
       this.schedule.companyId = parseInt(localStorage.getItem('company') || '')
       const finalDateTime = `${this.selectedDayForSchedule} ${this.selectedTimeForSchedule}`
-      console.log('finalDateTime ', finalDateTime)
 
       const scheduleToSave: ICreateScheduleDTO = {
         initialTime: new Date(finalDateTime),
