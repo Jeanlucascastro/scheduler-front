@@ -181,6 +181,8 @@ import { useLoginMixin, type LoginMixin } from '../mixins/LoginMixin.js'
 import { formatarDataEHora } from '@/utils/data.js'
 import type { IAnimal } from '@/interfaces/animal.js'
 import AnimalService from '@/services/AnimalService.js'
+import router from '@/router'
+
 
 const { checkLogin }: LoginMixin = useLoginMixin()
 
@@ -229,8 +231,8 @@ export default {
     }
   },
 
-  created() {
-    checkLogin()
+  async created() {
+    const valid = await checkLogin()
   }
 }
 </script>
