@@ -4,13 +4,12 @@ import { KJUR } from 'jsrsasign';
 export const CheckToken = async (token: string): Promise<boolean> => {
   try {
     const secret = import.meta.env.VITE_TOKEN
-    const decodedToken = KJUR.jws.JWS.verifyJWT(token, secret, {alg: ['HMAC256']});
+    console.log('HHEEEEU ', secret)
+    const decodedToken = KJUR.jws.JWS.verifyJWT(token, secret, { alg: ['HS256'] });
     console.log('decodedToken', decodedToken)
-    return true;
+    return decodedToken;
   } catch (error) {
-    console.error('Erro ao decodificar o token:', error);
     return false;
-    
   }
 };
 

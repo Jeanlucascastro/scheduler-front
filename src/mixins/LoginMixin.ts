@@ -2,27 +2,33 @@ import router from '@/router'
 import {CheckToken, getTokenSimple } from '@/services/TokenService'
 
 export interface LoginMixin {
-  checkLogin: () => void
+  checkLogin: () => Promise<boolean>,
 }
 
 export const useLoginMixin = (): LoginMixin => {
-  const checkLogin = async () => {
-      const token = getTokenSimple()
-      console.log('=====> ', token)
+  const checkLogin = async (): Promise<boolean> => {
+    const token = getTokenSimple();
+    console.log('=====> ', token);
 
-      if (!token) {
-        router.push('/')
-        console.log('Token inválido ou não existe. hh')
+    if (!token) {
+      await router.push('/login');
+      console.log('Token inválido ou não existe.');
+      localStorage.removeItem('logs-data');
+      return false; // Ensure boolean return
+    } else {
+      const decode = await CheckToken(token);
+      console.log('D E C O D E', decode);
+
+      if (!decode) {
+        console.log(' ???????????????????????????????????????');
+        localStorage.removeItem('logs-data');
+        await router.push('/login');
+        return false; // Ensure boolean return
       } else {
-        const decode = CheckToken(token)
-
-        if (!decode) {
-          localStorage.removeItem('token-oasis')
-          router.push('/')
-        }
+        return true; // Ensure boolean return
       }
+    }
+  };
 
-  }
-
-  return { checkLogin }
-}
+  return { checkLogin };
+};
