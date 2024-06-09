@@ -1,7 +1,7 @@
 <template>
-  <div class="aval">
+  <div class="dynamic-box">
     <div v-for="time in datas" :key="time.time" :value="time.time">
-      <button class="pod" @click="select(time)">
+      <button class="dynamic-element" @click="select(time)">
         {{ time.label }}
       </button>
     </div>
@@ -9,19 +9,7 @@
 </template>
 
 <style scoped>
-.aval {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-.pod {
-  background-color: #d18d2b;
-  padding: 13px;
-  border-radius: 14px;
-  border: unset;
-  margin: 3px;
-}
 </style>
 
 <script lang="ts">

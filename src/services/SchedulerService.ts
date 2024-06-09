@@ -101,7 +101,7 @@ export default class SchedulerService {
     console.log('schedule no service ', date, token)
 
     // 2024-05-31
-    const companyId = 1;
+    const companyId = localStorage.getItem('company')
 
     try {
       const response: AxiosResponse = await axios.get(`${UrlBase.apiUrl}/schedules/available-slots?companyId=${companyId}&date=${date}`, {

@@ -88,3 +88,16 @@ a,
   }
 }
 
+.dynamic-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dynamic-element {
+  background-color: #d18d2b;
+  padding: 13px;
+  border-radius: 14px;
+  border: unset;
+  margin: 3px;
+}
